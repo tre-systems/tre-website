@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#000000">
+    
+    <title>TRE Website</title>
+    <meta name="description" content="A minimal, flashy portfolio showcasing innovative GitHub projects with a modern, terminal-inspired design.">
+    <meta name="keywords" content="engineering, portfolio, GitHub, projects, technology, innovation">
+    <meta name="author" content="Total Reality Engineering">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="TRE Website">
+    <meta property="og:description" content="Innovative engineering projects and portfolio">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TRE Website">
+    <meta name="twitter:description" content="Innovative engineering projects and portfolio">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="logo192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="min-h-screen flex-col">
+        <!-- Header -->
+        <header class="header">
+            <div class="container header-content">
+                <div class="header-brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="header-logo animate-fade-in" preserveAspectRatio="xMidYMid meet">
+                        <g>
+                            <rect x="214" y="288" width="80" height="206" fill="#19C15E" transform="rotate(22, 262, 295)" />
+                            <path d="M256 36 L72 476 L440 476 Z" fill="none" stroke="#F5F5F5" stroke-width="30" stroke-linejoin="round" stroke-linecap="round" />
+                            <circle cx="256" cy="288" r="40" fill="#F5F5F5" />
+                        </g>
+                    </svg>
+                    <h1 class="header-title">Total Reality Engineering</h1>
+                </div>
+                <nav class="header-nav">
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <!-- Hero Section -->
+            <section class="hero-section" data-testid="hero-section">
+                <!-- Background overlay -->
+                <div class="hero-overlay"></div>
+                <!-- Background glow -->
+                <div class="hero-glow"></div>
+                
+                <div class="container hero-content">
+                    <!-- Logo -->
+                    <div class="hero-logo-container animate-slide-up">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="hero-logo" preserveAspectRatio="xMidYMid meet">
+                            <g>
+                                <rect x="214" y="288" width="80" height="206" fill="#19C15E" transform="rotate(22, 262, 295)" class="logo-bar" />
+                                <path d="M256 36 L72 476 L440 476 Z" fill="none" stroke="#F5F5F5" stroke-width="30" stroke-linejoin="round" stroke-linecap="round" class="logo-triangle" />
+                                <circle cx="256" cy="288" r="40" fill="#F5F5F5" class="logo-circle" />
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Mission Statement -->
+                    <div class="hero-mission animate-slide-up" style="animation-delay: 0.2s">
+                        <h2 class="hero-title-white">Bridge the gap between</h2>
+                        <h2 class="hero-title-green">dreams and reality</h2>
+                        <p class="hero-subtitle">through cutting-edge engineering</p>
+                    </div>
+
+                    <!-- Technology Stack -->
+                    <div class="hero-tech animate-slide-up" style="animation-delay: 0.4s">
+                        <div class="tech-badge">
+                            <span class="tech-label">Edge-native stack</span>
+                            <div class="tech-list">
+                                <span class="tech-item">Next.js</span>
+                                <span class="tech-item">Rust/Wasm</span>
+                                <span class="tech-item">WebGPU/WGSL</span>
+                                <span class="tech-item">Cloudflare Workers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="projects-section">
+                <div class="container">
+                    <h2 class="section-title animate-fade-in">Featured Projects</h2>
+                    
+                    <div class="project-grid" data-testid="project-grid">
+
+                        <!-- Project Card: speako -->
+                        <div class="project-card project-card-highlighted" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">speako</h3>
+                                    <p class="project-description" data-testid="project-description">Privacy-first AI Speaking Coach. Runs 100% in-browser using Whisper &amp; WebAssembly. Instant grammar, pronunciation, and fluency feedback.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="https://speako.tre.systems/" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">Website</span>
+                                        </a>
+                                        <a href="https://github.com/rgilks/speako" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: cefr-workshop -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">cefr-workshop</h3>
+                                    <p class="project-description" data-testid="project-description">A hands-on workshop for developers: fine-tune DeBERTa-v3 to predict CEFR levels (A1-C2) and deploy it on serverless GPUs with Modal.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links project-links-full">
+                                        <a href="https://github.com/rgilks/cefr-workshop" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-full" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: acto -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">acto</h3>
+                                    <p class="project-description" data-testid="project-description">AI interactive storyteller: a Next.js app that generates passages, choices, and images with Google GenAI, adds Google Cloud TTS voice, optional OAuth (NextAuth), SQLite rate-limits, PWA features, tests, and Fly.io deploy.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="https://acto.fly.dev" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">Website</span>
+                                        </a>
+                                        <a href="https://github.com/rgilks/acto" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: connect-four -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">connect-four</h3>
+                                    <p class="project-description" data-testid="project-description">AI Connect Four in the browser - Next.js + Rust/WASM. Minimax &amp; ML opponents, GA-evolved heuristics, self-play with MCTS. Cloudflare D1 + Workers.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="https://connect-4.tre.systems/" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">Website</span>
+                                        </a>
+                                        <a href="https://github.com/rgilks/connect-four" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: github-org-metrics -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">github-org-metrics</h3>
+                                    <p class="project-description" data-testid="project-description">GitHub Organization Metrics: A Python tool for analyzing and visualizing repository activity and developer contributions across an entire GitHub organization. Fetch, cache, and generate insightful CSV reports on commit history, code changes, and repository statistics.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links project-links-full">
+                                        <a href="https://github.com/rgilks/github-org-metrics" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-full" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: comprehendo -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">comprehendo</h3>
+                                    <p class="project-description" data-testid="project-description">AI-powered, multi-language reading-comprehension practice.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="https://comprehendo.fly.dev/" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">Website</span>
+                                        </a>
+                                        <a href="https://github.com/rgilks/comprehendo" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: planeto -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">planeto</h3>
+                                    <p class="project-description" data-testid="project-description">3D multi-user sandbox of drifting planetoids. You appear as a floating “eye,” explore a procedurally generated cluster, and exchange symbols with others in real time. Built with Next.js + React Three Fiber, Rapier physics, SSE, PWA setup; deployable on Fly.io.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="https://planeto.fly.dev/" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">Website</span>
+                                        </a>
+                                        <a href="https://github.com/rgilks/planeto" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: writeo -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">writeo</h3>
+                                    <p class="project-description" data-testid="project-description">Writeo is a Cloudflare-native, revision-first writing coach that pairs Next.js + Workers + Modal to deliver english essay scoring, explainable grammar feedback, and progress tracking across drafts.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Dec 2025</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="https://writeo.tre.systems/" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">Website</span>
+                                        </a>
+                                        <a href="https://github.com/rgilks/writeo" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: tre-website -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">tre-website</h3>
+                                    <p class="project-description" data-testid="project-description">Portfolio site for Total Reality Engineering (tre.systems). Next.js 15 + TypeScript + Tailwind, animated (Framer Motion), PWA-ready, auto-pulls GitHub projects, and deploys on Cloudflare Workers (Open-Next) with KV-backed caching and a cron refresh.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Nov 2025</span>
+                                    </div>
+                                    <div class="project-links project-links-full">
+                                        <a href="https://github.com/rgilks/tre-website" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-full" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: sloposcope -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">sloposcope</h3>
+                                    <p class="project-description" data-testid="project-description">Research-driven toolkit for experimenting with AI ‘slop’ detection using multi-dimensional NLP analysis.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Nov 2025</span>
+                                    </div>
+                                    <div class="project-links project-links-full">
+                                        <a href="https://github.com/rgilks/sloposcope" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-full" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: spf-mcp -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">spf-mcp</h3>
+                                    <p class="project-description" data-testid="project-description">Cloudflare Worker MCP server that lets GPT-5 run Savage Pathfinder sessions end‑to‑end—dice, action deck combat, actor sheets, and journal tools—backed by Durable Objects, D1, KV, and R2.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Nov 2025</span>
+                                    </div>
+                                    <div class="project-links project-links-full">
+                                        <a href="https://github.com/rgilks/spf-mcp" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-full" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Card: rgou-cloudflare -->
+                        <div class="project-card" data-testid="project-card">
+                            <div class="project-card-bg"></div>
+                            <div class="project-card-content">
+                                <div class="project-header">
+                                    <h3 class="project-title" data-testid="project-title">rgou-cloudflare</h3>
+                                    <p class="project-description" data-testid="project-description">A modern, playable implementation of the ancient Mesopotamian Royal Game of Ur, featuring a challenging AI opponent. Built with Next.js, TypeScript, and Rust/WASM for the AI, and deployable on Cloudflare.</p>
+                                </div>
+                                <div class="project-footer">
+                                    <div class="project-date">
+                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span data-testid="project-updated">Oct 2025</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="https://rgou.tre.systems/" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">Website</span>
+                                        </a>
+                                        <a href="https://github.com/rgilks/rgou-cloudflare" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="about-section" data-testid="about-section">
+                <div class="container text-center">
+                    <h2 class="section-title animate-fade-in">About Total Reality Engineering</h2>
+                    <div class="about-content">
+                        <p class="about-text">
+                            I design systems that pair artistic instincts with disciplined engineering, 
+                            delivering software that is durable, performant, and delightful to use. 
+                            Every engagement focuses on solving hard problems with precise execution rather than hype.
+                        </p>
+                        <div class="about-divider"></div>
+                        <p class="about-bio">
+                            Total Reality Engineering is a solo practice where artist and software engineer 
+                            <a href="https://www.linkedin.com/in/rob-gilks-39bb03/" target="_blank" rel="noopener noreferrer" class="about-link">Robert Gilks</a> 
+                            partners directly with clients to deliver bespoke interactive experiences, research tools, and production platforms.
+                        </p>
+                        <p class="about-founded">Founded in Australia in 1998 • Established in the UK in 2008</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="contact-section" data-testid="contact-section">
+                <div class="container text-center">
+                    <h2 class="section-title animate-fade-in">Get In Touch</h2>
+                    <p class="contact-text">
+                        Ready to bring your ideas to life? Let's discuss how I can help you achieve your engineering goals.
+                    </p>
+                    <div class="contact-buttons">
+                        <a href="https://github.com/rgilks" target="_blank" rel="noopener noreferrer" class="contact-btn">
+                            <div class="btn-fill"></div>
+                            <span class="btn-text">GitHub</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rob-gilks-39bb03/" target="_blank" rel="noopener noreferrer" class="contact-btn">
+                            <div class="btn-fill"></div>
+                            <span class="btn-text">LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container text-center">
+                <p class="footer-text">© 2024 Total Reality Engineering. Built with innovation.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
