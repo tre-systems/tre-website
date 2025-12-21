@@ -1,50 +1,36 @@
-name: Update Static Site Projects
+name: Update Projects
 
 on:
-  # Daily at 6 AM UTC
   schedule:
-    - cron: '0 6 * * *'
-  # Allow manual trigger
+    - cron: '0 6 * * *'  # Daily at 6 AM UTC
   workflow_dispatch:
-  # Also run on push to main (for static-site changes)
   push:
-    branches:
-      - main
-    paths:
-      - 'static-site/**'
+    branches: [main]
+    paths: ['build-projects.js']
 
 jobs:
-  update-projects:
+  update:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Fetch and update projects
+      - name: Update projects
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd static-site
-          node build-projects.js
+        run: node build-projects.js
 
-      - name: Check for changes
-        id: git-check
+      - name: Commit changes
         run: |
-          git diff --quiet static-site/index.html || echo "changes=true" >> $GITHUB_OUTPUT
-
-      - name: Commit and push if changed
-        if: steps.git-check.outputs.changes == 'true'
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add static-site/index.html
-          git commit -m "chore: update static site projects [skip ci]"
-          git push
+          git diff --quiet index.html || {
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name "github-actions[bot]"
+            git add index.html
+            git commit -m "chore: update projects [skip ci]"
+            git push
+          }
