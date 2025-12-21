@@ -138,7 +138,8 @@ async function fetchProjects() {
             updatedAt: repo.updated_at,
             homepageUrl: repo.homepage || null,
             updatedAt: repo.updated_at,
-            imageUrl: imageUrl
+            imageUrl: imageUrl,
+            topics: repo.topics || []
         });
     }
 
@@ -190,6 +191,9 @@ function generateProjectCard(project) {
                                 <div class="project-header">
                                     <h3 class="project-title" data-testid="project-title">${project.name}</h3>
                                     <p class="project-description" data-testid="project-description">${escapeHtml(project.description)}</p>
+                                </div>
+                                <div class="project-topics">
+                                    ${project.topics.slice(0, 6).map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
                                 </div>
                                 <div class="project-footer">
                                     <div class="project-date">

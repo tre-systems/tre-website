@@ -808,3 +808,34 @@ body {
         max-width: 90vw;
     }
 }
+
+/* Project Topics */
+.project-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.topic-tag {
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(var(--tre-green-rgb), 0.8);
+    background: rgba(var(--tre-green-rgb), 0.05);
+    border: 1px solid rgba(var(--tre-green-rgb), 0.15);
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.2rem;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.topic-tag:hover {
+    color: var(--tre-green);
+    background: rgba(var(--tre-green-rgb), 0.15);
+    border-color: rgba(var(--tre-green-rgb), 0.5);
+    box-shadow: 0 0 5px rgba(var(--tre-green-rgb), 0.2);
+    transform: translateY(-1px);
+    text-shadow: 0 0 2px rgba(var(--tre-green-rgb), 0.5);
+}
