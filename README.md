@@ -2,6 +2,8 @@
 
 A minimal, elegant portfolio website showcasing GitHub projects with a terminal-inspired design.
 
+![Site Screenshot](screenshot.png)
+
 ## 🚀 Quick Start
 
 ```bash
