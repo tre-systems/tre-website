@@ -672,7 +672,7 @@ body {
 
 /* About Section */
 .about-section {
-    padding: 4rem 0;
+    padding: 2rem 0;
     background: rgba(0, 0, 0, 0.95);
 }
 
@@ -718,7 +718,7 @@ body {
 
 /* Contact Section */
 .contact-section {
-    padding: 4rem 0;
+    padding: 2rem 0;
     background: linear-gradient(to top, var(--tre-black), rgba(0, 0, 0, 0.95));
 }
 
