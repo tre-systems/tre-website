@@ -44,7 +44,7 @@ GITHUB_TOKEN=your_token node build-projects.js
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT License
 
 ## 👨‍💻 Author
 

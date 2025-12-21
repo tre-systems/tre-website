@@ -4,7 +4,6 @@
     --tre-green: #39FF14;
     --tre-green-dark: #2ECC71;
     --tre-white: #FFFFFF;
-    --tre-beige: #F5F5DC;
     --background: #000000;
     --foreground: #FFFFFF;
 }
@@ -50,10 +49,6 @@ body {
     background: var(--tre-green-dark);
 }
 
-/* Typography */
-.font-mono {
-    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-}
 
 /* Layout */
 .min-h-screen {
@@ -220,15 +215,6 @@ body {
     max-height: min(600px, 80vh);
 }
 
-.hero-line {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100vw;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.3);
-}
 
 .hero-mission {
     margin-bottom: 4rem;
@@ -369,6 +355,7 @@ body {
     margin-bottom: 0.5rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
