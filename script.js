@@ -79,6 +79,6 @@ function updateFooterYear() {
     const footerText = document.querySelector('.footer-text');
     if (footerText) {
         const currentYear = new Date().getFullYear();
-        footerText.textContent = `© ${currentYear} Total Reality Engineering. Built with innovation.`;
+        footerText.textContent = `© ${currentYear} Total Reality Engineering.`;
     }
 }
