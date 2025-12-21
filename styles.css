@@ -592,7 +592,13 @@ body {
 /* Remove media query as flex-wrap handles it intrinsically */
 
 .project-links-full {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.project-btn-full {
+    flex: 0 1 auto;
+    min-width: 50%;
 }
 
 /* Ensure buttons grow to fill the row */
