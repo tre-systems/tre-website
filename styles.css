@@ -563,9 +563,7 @@ body {
 }
 
 .project-footer {
-    margin-top: auto;
-    /* Push buttons to bottom */
-    padding-top: 1.5rem;
+    padding-top: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -813,9 +811,11 @@ body {
 .project-topics {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.4rem;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin-top: auto;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
 }
 
 .topic-tag {
