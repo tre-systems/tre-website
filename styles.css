@@ -584,24 +584,24 @@ body {
 }
 
 .project-links {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
 }
 
-@media (max-width: 600px) {
-    .project-links {
-        grid-template-columns: 1fr;
-    }
-}
+/* Remove media query as flex-wrap handles it intrinsically */
 
 .project-links-full {
-    grid-template-columns: 1fr;
+    flex-direction: column;
 }
 
-/* Buttons */
+/* Ensure buttons grow to fill the row */
 .project-btn,
 .contact-btn {
+    flex: 1 0 120px;
+    /* Grow, don't shrink below 120px */
+    justify-content: center;
+    text-align: center;
     position: relative;
     display: flex;
     align-items: center;
