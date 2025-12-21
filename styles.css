@@ -589,6 +589,12 @@ body {
     gap: 0.5rem;
 }
 
+@media (max-width: 600px) {
+    .project-links {
+        grid-template-columns: 1fr;
+    }
+}
+
 .project-links-full {
     grid-template-columns: 1fr;
 }
