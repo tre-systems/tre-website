@@ -196,15 +196,7 @@ function generateProjectCard(project) {
                                     ${project.topics.slice(0, 6).map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
                                 </div>
                                 <div class="project-footer">
-                                    <div class="project-date">
-                                        <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                                        </svg>
-                                        <span data-testid="project-updated">${formatDate(project.updatedAt)}</span>
-                                    </div>
+
                                     <div class="project-links${linksClass}">${websiteLink}
                                         <a href="${project.htmlUrl}" target="_blank" rel="noopener noreferrer" class="project-btn${btnClass}" data-testid="project-github">
                                             <div class="btn-fill"></div>
