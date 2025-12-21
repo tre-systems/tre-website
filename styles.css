@@ -599,17 +599,30 @@ body {
 .project-btn,
 .contact-btn {
     position: relative;
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--tre-green);
-    color: var(--tre-green);
-    font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-    border-radius: 0.25rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    color: rgba(var(--tre-green-rgb), 1);
     text-decoration: none;
-    overflow: hidden;
-    transition: all 0.3s;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(var(--tre-green-rgb), 0.5);
+    background: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+}
+
+.btn-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+    transition: transform 0.3s ease;
+}
+
+.contact-btn:hover .btn-icon {
+    transform: scale(1.1);
 }
 
 .project-btn:hover,
