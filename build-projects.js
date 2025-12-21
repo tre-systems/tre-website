@@ -36,7 +36,9 @@ const EXCLUDED_IMAGE_HANDLES = [
     'contrib.rocks',
     'license',
     'twitter.svg',
-    'linkedin.svg'
+    'linkedin.svg',
+    'via.placeholder.com',
+    'placehold.co'
 ];
 
 // Maximum number of projects to display
