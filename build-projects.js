@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const GITHUB_USERNAME = 'rgilks';
-const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`;
+const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`;
 const INDEX_FILE = path.join(__dirname, 'index.html');
 
 // Projects to exclude from display
@@ -125,6 +125,7 @@ async function fetchProjects() {
     // Use a subset of projects for efficiency or the full list
     const filteredRepos = repos
         .filter(repo => !repo.private && !EXCLUDED_REPOS.includes(repo.name))
+        .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
         .slice(0, MAX_PROJECTS);
 
     for (const [index, repo] of filteredRepos.entries()) {
