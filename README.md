@@ -19,12 +19,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 📁 Structure
 
 ```
-├── index.html         # Main page
-├── styles.css         # All styling
-├── script.js          # Animations & interactions
-├── build-projects.js  # GitHub project fetcher
-├── favicon.svg        # Site icon
-└── logo192.png        # PWA icon
+├── index.html                              # Main page
+├── styles.css                              # All styling
+├── script.js                               # Animations & interactions
+├── build-projects.js                       # GitHub project fetcher
+├── package.json                            # Scripts & config
+├── favicon.svg                             # Site icon
+├── logo192.png                             # Apple touch icon
+└── .github/workflows/update-static-site.yml # Daily auto-update
 ```
 
 ## 🔄 Updating Projects

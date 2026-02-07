@@ -139,8 +139,6 @@ async function fetchProjects() {
             htmlUrl: repo.html_url,
             homepageUrl: repo.homepage || null,
             updatedAt: repo.updated_at,
-            homepageUrl: repo.homepage || null,
-            updatedAt: repo.updated_at,
             imageUrl: imageUrl,
             topics: repo.topics || []
         });
@@ -155,7 +153,7 @@ function formatDate(dateString) {
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
 
-function generateProjectCard(project) {
+function generateProjectCard(project, index) {
     const linksClass = project.homepageUrl ? '' : ' project-links-full';
     const btnClass = project.homepageUrl ? '' : ' project-btn-full';
     
@@ -167,7 +165,7 @@ function generateProjectCard(project) {
 
     const imageHtml = project.imageUrl ? `
                                  <div class="project-image-container">
-                                     <img src="${project.imageUrl}" alt="${project.name} screenshot" class="project-image" loading="lazy">
+                                     <img src="${project.imageUrl}" alt="${project.name} screenshot" class="project-image" loading="lazy" onerror="this.closest('.project-image-container').classList.add('placeholder');this.remove()">
                                  </div>` : `
                                  <div class="project-image-container placeholder">
                                      <div class="placeholder-overlay"></div>
@@ -178,7 +176,7 @@ function generateProjectCard(project) {
                                      </svg>
                                  </div>`;
 
-    const randomDelay = (Math.random() * -10).toFixed(2); // Random start time for animations
+    const randomDelay = (((index * 7 + 3) % 10) * -1).toFixed(2); // Deterministic per-card animation offset
     const projectLink = project.homepageUrl || project.htmlUrl;
     
     return `
@@ -196,7 +194,7 @@ function generateProjectCard(project) {
                                     <p class="project-description" data-testid="project-description">${escapeHtml(project.description)}</p>
                                 </div>
                                 <div class="project-topics">
-                                    ${project.topics.slice(0, 6).map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+                                    ${project.topics.slice(0, 6).map(topic => `<span class="topic-tag">${escapeHtml(topic)}</span>`).join('')}
                                 </div>
                                 <div class="project-footer">
 
@@ -221,7 +219,7 @@ function escapeHtml(text) {
 }
 
 function generateProjectsHtml(projects) {
-    return projects.map(generateProjectCard).join('\n');
+    return projects.map((project, index) => generateProjectCard(project, index)).join('\n');
 }
 
 async function updateIndexHtml(projectsHtml) {
