@@ -15,8 +15,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const GITHUB_USERNAME = 'rgilks';
-const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`;
+const GITHUB_ORG = 'tre-systems';
+const GITHUB_API_URL = `https://api.github.com/orgs/${GITHUB_ORG}/repos?sort=pushed&per_page=100`;
 const INDEX_FILE = path.join(__dirname, 'index.html');
 
 // Projects to exclude from display
@@ -45,7 +45,7 @@ const EXCLUDED_IMAGE_HANDLES = [
 const MAX_PROJECTS = 100;
 
 async function fetchReadme(repoName, defaultBranch, headers) {
-    const readmeUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repoName}/${defaultBranch}/README.md`;
+    const readmeUrl = `https://raw.githubusercontent.com/${GITHUB_ORG}/${repoName}/${defaultBranch}/README.md`;
     try {
         const response = await fetch(readmeUrl, { headers });
         if (response.ok) {
@@ -91,7 +91,7 @@ function extractFirstImage(readmeContent, repoName, defaultBranch) {
     if (!firstImage.startsWith('http')) {
         // Remove leading ./ or / if present
         firstImage = firstImage.replace(/^(\.\/|\/)/, '');
-        firstImage = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repoName}/${defaultBranch}/${firstImage}`;
+        firstImage = `https://raw.githubusercontent.com/${GITHUB_ORG}/${repoName}/${defaultBranch}/${firstImage}`;
     }
 
     return firstImage;
