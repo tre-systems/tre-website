@@ -20,7 +20,7 @@ const GITHUB_API_URL = `https://api.github.com/orgs/${GITHUB_ORG}/repos?sort=pus
 const INDEX_FILE = path.join(__dirname, 'index.html');
 
 // Projects to exclude from display
-const EXCLUDED_REPOS = [];
+const EXCLUDED_REPOS = ['tre-website'];
 
 // Image patterns to exclude (badges, stats, avatars, etc.)
 const EXCLUDED_IMAGE_HANDLES = [
