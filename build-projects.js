@@ -135,7 +135,7 @@ async function fetchProjects() {
 
         projects.push({
             name: repo.name,
-            description: repo.description || 'No description available',
+            description: repo.description || '',
             htmlUrl: repo.html_url,
             homepageUrl: repo.homepage || null,
             updatedAt: repo.updated_at,
@@ -144,8 +144,13 @@ async function fetchProjects() {
         });
     }
 
-    console.log(`Found ${projects.length} projects`);
-    return projects;
+    // Only include projects that have a screenshot, description, and tags
+    const completeProjects = projects.filter(p =>
+        p.imageUrl && p.description && p.topics.length > 0
+    );
+
+    console.log(`Found ${projects.length} repos, ${completeProjects.length} with image, description, and tags`);
+    return completeProjects;
 }
 
 function formatDate(dateString) {
