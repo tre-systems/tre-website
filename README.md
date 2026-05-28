@@ -48,6 +48,20 @@ regeneration and deploys the committed site.
 Private repos are shown only when they have a description, topics, a README
 image, and a public TRE homepage; private GitHub links are never rendered.
 
+### Private Repo Project Cards
+
+Private TRE repositories can appear on the public site, but the scheduled
+GitHub Actions refresh needs an explicit repository secret named
+`PROJECTS_GITHUB_TOKEN`. Use a GitHub token that can read the relevant private
+`tre-systems` repositories, including README and image files. A fine-grained
+token should have read-only contents access for the private repositories that
+may be displayed; a classic token needs equivalent private-repo read access.
+
+If `PROJECTS_GITHUB_TOKEN` is missing or invalid, the workflow deliberately
+skips `node build-projects.js` and deploys the already committed `index.html`
+and `generated/project-images` files. That keeps existing private cards live,
+but they will not update automatically until the secret is configured.
+
 ## 🎨 Design
 
 - **Colors**: Black background (#000), Terminal green (#39FF14), White text

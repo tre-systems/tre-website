@@ -23,6 +23,8 @@ jobs:
         with:
           node-version: '24'
 
+      # PROJECTS_GITHUB_TOKEN must read the private tre-systems repos whose
+      # metadata and README images should be refreshed onto the public site.
       - name: Update projects
         if: ${{ env.PROJECTS_GITHUB_TOKEN != '' }}
         env:
