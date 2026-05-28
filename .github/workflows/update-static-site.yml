@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      PROJECTS_GITHUB_TOKEN: ${{ secrets.PROJECTS_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -22,10 +24,14 @@ jobs:
           node-version: '24'
 
       - name: Update projects
+        if: ${{ env.PROJECTS_GITHUB_TOKEN != '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECTS_GITHUB_TOKEN: ${{ secrets.PROJECTS_GITHUB_TOKEN || secrets.TOKEN_GITHUB }}
         run: node build-projects.js
+
+      - name: Skip project update
+        if: ${{ env.PROJECTS_GITHUB_TOKEN == '' }}
+        run: echo "Skipping project refresh because PROJECTS_GITHUB_TOKEN is not configured."
 
       - name: Commit changes
         run: |
