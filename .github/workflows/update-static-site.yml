@@ -24,14 +24,15 @@ jobs:
       - name: Update projects
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECTS_GITHUB_TOKEN: ${{ secrets.PROJECTS_GITHUB_TOKEN }}
         run: node build-projects.js
 
       - name: Commit changes
         run: |
-          git diff --quiet index.html || {
+          test -z "$(git status --porcelain index.html generated/project-images)" || {
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git config user.name "github-actions[bot]"
-            git add index.html
+            git add index.html generated/project-images
             git commit -m "chore: update projects"
             git push
           }

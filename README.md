@@ -35,10 +35,16 @@ Projects are fetched from GitHub and injected into `index.html`. This happens:
 - **Automatically**: Daily via GitHub Actions
 - **Manually**: Run `node build-projects.js`
 
-To use a GitHub token for higher rate limits:
+To use a GitHub token for higher rate limits, and to include private TRE repos
+that have a public `*.tre.systems` homepage:
 ```bash
 GITHUB_TOKEN=your_token node build-projects.js
 ```
+
+In GitHub Actions, set `PROJECTS_GITHUB_TOKEN` to a token that can read the
+private `tre-systems` repos if private-project cards should be generated.
+Private repos are shown only when they have a description, topics, a README
+image, and a public TRE homepage; private GitHub links are never rendered.
 
 ## 🎨 Design
 

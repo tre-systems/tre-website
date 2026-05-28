@@ -16,8 +16,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const GITHUB_ORG = 'tre-systems';
-const GITHUB_API_URL = `https://api.github.com/orgs/${GITHUB_ORG}/repos?sort=pushed&per_page=100`;
+const GITHUB_API_URL = `https://api.github.com/orgs/${GITHUB_ORG}/repos?type=all&sort=pushed&per_page=100`;
 const INDEX_FILE = path.join(__dirname, 'index.html');
+const PRIVATE_PROJECT_IMAGE_DIR = path.join(__dirname, 'generated', 'project-images');
 
 // Projects to exclude from display
 const EXCLUDED_REPOS = ['tre-website'];
@@ -44,10 +45,34 @@ const EXCLUDED_IMAGE_HANDLES = [
 // Maximum number of projects to display
 const MAX_PROJECTS = 100;
 
-async function fetchReadme(repoName, defaultBranch, headers) {
-    const readmeUrl = `https://raw.githubusercontent.com/${GITHUB_ORG}/${repoName}/${defaultBranch}/README.md`;
+function getAuthToken() {
+    return process.env.PROJECTS_GITHUB_TOKEN || process.env.GITHUB_TOKEN || null;
+}
+
+function createHeaders(accept = 'application/vnd.github+json') {
+    const headers = {
+        'Accept': accept,
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'tre-website-static'
+    };
+
+    const token = getAuthToken();
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return headers;
+}
+
+async function fetchReadme(repoName, headers) {
+    const readmeUrl = `https://api.github.com/repos/${GITHUB_ORG}/${repoName}/readme`;
     try {
-        const response = await fetch(readmeUrl, { headers });
+        const response = await fetch(readmeUrl, {
+            headers: {
+                ...headers,
+                'Accept': 'application/vnd.github.raw'
+            }
+        });
         if (response.ok) {
             return await response.text();
         }
@@ -55,6 +80,17 @@ async function fetchReadme(repoName, defaultBranch, headers) {
         console.warn(`Could not fetch README for ${repoName}:`, error.message);
     }
     return null;
+}
+
+function isTreSystemsUrl(url) {
+    if (!url) return false;
+
+    try {
+        const { hostname } = new URL(url);
+        return hostname === 'tre.systems' || hostname.endsWith('.tre.systems');
+    } catch {
+        return false;
+    }
 }
 
 function extractFirstImage(readmeContent, repoName, defaultBranch) {
@@ -97,19 +133,41 @@ function extractFirstImage(readmeContent, repoName, defaultBranch) {
     return firstImage;
 }
 
+function imageExtensionFromUrl(url) {
+    try {
+        const ext = path.extname(new URL(url).pathname).toLowerCase();
+        if (['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg'].includes(ext)) {
+            return ext === '.jpeg' ? '.jpg' : ext;
+        }
+    } catch {
+        // Fall through to the default.
+    }
+    return '.png';
+}
+
+async function cachePrivateProjectImage(repoName, imageUrl, headers) {
+    fs.mkdirSync(PRIVATE_PROJECT_IMAGE_DIR, { recursive: true });
+
+    const response = await fetch(imageUrl, { headers });
+    if (!response.ok) {
+        throw new Error(`Could not fetch private image for ${repoName}: ${response.status} ${response.statusText}`);
+    }
+
+    const extension = imageExtensionFromUrl(imageUrl);
+    const filename = `${repoName}${extension}`;
+    const outputPath = path.join(PRIVATE_PROJECT_IMAGE_DIR, filename);
+    const imageBuffer = Buffer.from(await response.arrayBuffer());
+    fs.writeFileSync(outputPath, imageBuffer);
+
+    return `generated/project-images/${filename}`;
+}
+
 async function fetchProjects() {
     console.log('Fetching projects from GitHub API...');
-    
-    const headers = {
-        'Accept': 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28',
-        'User-Agent': 'tre-website-static'
-    };
 
-    // Use GITHUB_TOKEN if available (for GitHub Actions)
-    if (process.env.GITHUB_TOKEN) {
-        headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
-    }
+    const headers = createHeaders();
+
+    fs.rmSync(PRIVATE_PROJECT_IMAGE_DIR, { recursive: true, force: true });
 
     const response = await fetch(GITHUB_API_URL, { headers });
     
@@ -124,14 +182,27 @@ async function fetchProjects() {
     
     // Use a subset of projects for efficiency or the full list
     const filteredRepos = repos
-        .filter(repo => !repo.private && !EXCLUDED_REPOS.includes(repo.name))
+        .filter(repo => {
+            if (EXCLUDED_REPOS.includes(repo.name)) return false;
+            if (!repo.private) return true;
+            return isTreSystemsUrl(repo.homepage);
+        })
         .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
         .slice(0, MAX_PROJECTS);
 
     for (const [index, repo] of filteredRepos.entries()) {
         console.log(`Processing ${repo.name}...`);
-        const readmeContent = await fetchReadme(repo.name, repo.default_branch, headers);
-        const imageUrl = extractFirstImage(readmeContent, repo.name, repo.default_branch);
+        const readmeContent = await fetchReadme(repo.name, headers);
+        let imageUrl = extractFirstImage(readmeContent, repo.name, repo.default_branch);
+
+        if (repo.private && imageUrl) {
+            try {
+                imageUrl = await cachePrivateProjectImage(repo.name, imageUrl, headers);
+            } catch (error) {
+                console.warn(error.message);
+                imageUrl = null;
+            }
+        }
 
         projects.push({
             name: repo.name,
@@ -140,13 +211,18 @@ async function fetchProjects() {
             homepageUrl: repo.homepage || null,
             updatedAt: repo.updated_at,
             imageUrl: imageUrl,
-            topics: repo.topics || []
+            topics: repo.topics || [],
+            isPrivate: repo.private
         });
     }
 
-    // Only include projects that have a screenshot, description, and tags
+    // Only include projects that have a screenshot, description, and tags.
+    // Private repos also need a public TRE homepage and never expose GitHub links.
     const completeProjects = projects.filter(p =>
-        p.imageUrl && p.description && p.topics.length > 0
+        p.imageUrl &&
+        p.description &&
+        p.topics.length > 0 &&
+        (!p.isPrivate || isTreSystemsUrl(p.homepageUrl))
     );
 
     console.log(`Found ${projects.length} repos, ${completeProjects.length} with image, description, and tags`);
@@ -159,14 +235,22 @@ function formatDate(dateString) {
 }
 
 function generateProjectCard(project, index) {
-    const linksClass = project.homepageUrl ? '' : ' project-links-full';
-    const btnClass = project.homepageUrl ? '' : ' project-btn-full';
-    
+    const showGithubLink = !project.isPrivate;
+    const linkCount = (project.homepageUrl ? 1 : 0) + (showGithubLink ? 1 : 0);
+    const linksClass = linkCount === 1 ? ' project-links-full' : '';
+    const btnClass = linkCount === 1 ? ' project-btn-full' : '';
+
     const websiteLink = project.homepageUrl ? `
-                                         <a href="${project.homepageUrl}" target="_blank" rel="noopener noreferrer" class="project-btn" data-testid="project-website">
+                                         <a href="${project.homepageUrl}" target="_blank" rel="noopener noreferrer" class="project-btn${btnClass}" data-testid="project-website">
                                              <div class="btn-fill"></div>
                                              <span class="btn-text">Website</span>
                                          </a>` : '';
+
+    const githubLink = showGithubLink ? `
+                                        <a href="${project.htmlUrl}" target="_blank" rel="noopener noreferrer" class="project-btn${btnClass}" data-testid="project-github">
+                                            <div class="btn-fill"></div>
+                                            <span class="btn-text">GitHub</span>
+                                        </a>` : '';
 
     const imageHtml = project.imageUrl ? `
                                  <div class="project-image-container">
@@ -203,11 +287,7 @@ function generateProjectCard(project, index) {
                                 </div>
                                 <div class="project-footer">
 
-                                    <div class="project-links${linksClass}">${websiteLink}
-                                        <a href="${project.htmlUrl}" target="_blank" rel="noopener noreferrer" class="project-btn${btnClass}" data-testid="project-github">
-                                            <div class="btn-fill"></div>
-                                            <span class="btn-text">GitHub</span>
-                                        </a>
+                                    <div class="project-links${linksClass}">${websiteLink}${githubLink}
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +330,8 @@ async function updateIndexHtml(projectsHtml) {
     }
     
     // Replace the content between start and end
-    const newHtml = html.slice(0, startIndex) + '\n' + projectsHtml + '\n                    ' + html.slice(endIndex);
+    const newHtml = (html.slice(0, startIndex) + '\n' + projectsHtml + '\n                    ' + html.slice(endIndex))
+        .replace(/[ \t]+$/gm, '');
     
     fs.writeFileSync(INDEX_FILE, newHtml);
     console.log('index.html updated successfully!');
