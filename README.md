@@ -42,7 +42,8 @@ GITHUB_TOKEN=your_token node build-projects.js
 ```
 
 In GitHub Actions, set `PROJECTS_GITHUB_TOKEN` to a token that can read the
-private `tre-systems` repos if private-project cards should be generated.
+private `tre-systems` repos if private-project cards should be generated. The
+workflow also falls back to the existing `TOKEN_GITHUB` secret.
 Private repos are shown only when they have a description, topics, a README
 image, and a public TRE homepage; private GitHub links are never rendered.
 

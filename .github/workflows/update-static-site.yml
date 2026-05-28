@@ -24,7 +24,7 @@ jobs:
       - name: Update projects
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECTS_GITHUB_TOKEN: ${{ secrets.PROJECTS_GITHUB_TOKEN }}
+          PROJECTS_GITHUB_TOKEN: ${{ secrets.PROJECTS_GITHUB_TOKEN || secrets.TOKEN_GITHUB }}
         run: node build-projects.js
 
       - name: Commit changes
