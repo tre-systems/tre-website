@@ -23,6 +23,9 @@ const PRIVATE_PROJECT_IMAGE_DIR = path.join(__dirname, 'generated', 'project-ima
 // Projects to exclude from display
 const EXCLUDED_REPOS = ['tre-website'];
 
+// Flagship portfolio work to show first. Metadata still comes from GitHub.
+const FLAGSHIP_REPOS = ['writeo', 'antenna', 'acto'];
+
 // Image patterns to exclude (badges, stats, avatars, etc.)
 const EXCLUDED_IMAGE_HANDLES = [
     'img.shields.io',
@@ -187,7 +190,18 @@ async function fetchProjects() {
             if (!repo.private) return true;
             return isTreSystemsUrl(repo.homepage);
         })
-        .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
+        .sort((a, b) => {
+            const flagshipA = FLAGSHIP_REPOS.indexOf(a.name);
+            const flagshipB = FLAGSHIP_REPOS.indexOf(b.name);
+
+            if (flagshipA !== -1 || flagshipB !== -1) {
+                if (flagshipA === -1) return 1;
+                if (flagshipB === -1) return -1;
+                return flagshipA - flagshipB;
+            }
+
+            return new Date(b.pushed_at) - new Date(a.pushed_at);
+        })
         .slice(0, MAX_PROJECTS);
 
     for (const [index, repo] of filteredRepos.entries()) {

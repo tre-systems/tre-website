@@ -10,8 +10,8 @@ A minimal, elegant portfolio website showcasing GitHub projects with a terminal-
 # Serve locally
 npx serve .
 
-# Update projects from GitHub
-node build-projects.js
+# Update projects from GitHub, including private TRE cards
+PROJECTS_GITHUB_TOKEN="$(gh auth token)" npm run build
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -35,11 +35,16 @@ Projects are fetched from GitHub and injected into `index.html`. This happens:
 - **Automatically**: Daily via GitHub Actions
 - **Manually**: Run `node build-projects.js`
 
-To use a GitHub token for higher rate limits, and to include private TRE repos
-that have a public `*.tre.systems` homepage:
+To include private TRE repos that have a public `*.tre.systems` homepage, run
+the build with a token that can read those repositories:
 ```bash
-GITHUB_TOKEN=your_token node build-projects.js
+PROJECTS_GITHUB_TOKEN="$(gh auth token)" npm run build
 ```
+
+The script also accepts `GITHUB_TOKEN`, but `PROJECTS_GITHUB_TOKEN` is the
+preferred name because it matches the scheduled workflow secret. Running
+`npm run build` without a private-repo token regenerates a public-only project
+grid locally.
 
 In GitHub Actions, set `PROJECTS_GITHUB_TOKEN` to a token that can read the
 private `tre-systems` repos if private-project cards should be refreshed by
