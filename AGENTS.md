@@ -22,8 +22,8 @@ Current priority noted on 2026-05-29:
 ## Project Card Rules
 
 - Public repositories can show both website and GitHub links when available.
-- Private repositories can appear only when they have a public `*.tre.systems`
-  URL, description, topics, and a README image suitable for the card.
+- Private repositories can appear only when they have a public TRE-owned
+  homepage, description, topics, and a README image suitable for the card.
 - Private repository cards must not expose private GitHub links.
 - Private project screenshots are cached under `generated/project-images/` so
   the public site does not depend on private GitHub asset access.

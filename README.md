@@ -35,8 +35,8 @@ Projects are fetched from GitHub and injected into `index.html`. This happens:
 - **Automatically**: Daily via GitHub Actions
 - **Manually**: Run `node build-projects.js`
 
-To include private TRE repos that have a public `*.tre.systems` homepage, run
-the build with a token that can read those repositories:
+To include private TRE repos that have a public TRE-owned homepage, run the
+build with a token that can read those repositories:
 ```bash
 PROJECTS_GITHUB_TOKEN="$(gh auth token)" npm run build
 ```
@@ -51,7 +51,7 @@ private `tre-systems` repos if private-project cards should be refreshed by
 the scheduled workflow. Without that secret, the workflow skips project
 regeneration and deploys the committed site.
 Private repos are shown only when they have a description, topics, a README
-image, and a public TRE homepage; private GitHub links are never rendered.
+image, and a public TRE-owned homepage; private GitHub links are never rendered.
 
 ### Private Repo Project Cards
 

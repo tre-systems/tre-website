@@ -25,6 +25,10 @@ const EXCLUDED_REPOS = ['tre-website'];
 
 // Flagship portfolio work to show first. Metadata still comes from GitHub.
 const FLAGSHIP_REPOS = ['writeo', 'antenna', 'acto'];
+const APPROVED_PRIVATE_PROJECT_HOSTS = new Set([
+    'rowspire.com',
+    'www.rowspire.com'
+]);
 
 // Image patterns to exclude (badges, stats, avatars, etc.)
 const EXCLUDED_IMAGE_HANDLES = [
@@ -85,15 +89,30 @@ async function fetchReadme(repoName, headers) {
     return null;
 }
 
-function isTreSystemsUrl(url) {
+function isPublicPortfolioUrl(url) {
     if (!url) return false;
 
     try {
         const { hostname } = new URL(url);
-        return hostname === 'tre.systems' || hostname.endsWith('.tre.systems');
+        return (
+            hostname === 'tre.systems' ||
+            hostname.endsWith('.tre.systems') ||
+            APPROVED_PRIVATE_PROJECT_HOSTS.has(hostname)
+        );
     } catch {
         return false;
     }
+}
+
+function cachedPrivateProjectImage(repoName) {
+    for (const extension of ['.png', '.jpg', '.webp', '.gif', '.svg']) {
+        const relativePath = `generated/project-images/${repoName}${extension}`;
+        if (fs.existsSync(path.join(__dirname, relativePath))) {
+            return relativePath;
+        }
+    }
+
+    return null;
 }
 
 function extractFirstImage(readmeContent, repoName, defaultBranch) {
@@ -170,8 +189,6 @@ async function fetchProjects() {
 
     const headers = createHeaders();
 
-    fs.rmSync(PRIVATE_PROJECT_IMAGE_DIR, { recursive: true, force: true });
-
     const response = await fetch(GITHUB_API_URL, { headers });
     
     if (!response.ok) {
@@ -188,7 +205,7 @@ async function fetchProjects() {
         .filter(repo => {
             if (EXCLUDED_REPOS.includes(repo.name)) return false;
             if (!repo.private) return true;
-            return isTreSystemsUrl(repo.homepage);
+            return isPublicPortfolioUrl(repo.homepage);
         })
         .sort((a, b) => {
             const flagshipA = FLAGSHIP_REPOS.indexOf(a.name);
@@ -218,6 +235,10 @@ async function fetchProjects() {
             }
         }
 
+        if (repo.private && !imageUrl) {
+            imageUrl = cachedPrivateProjectImage(repo.name);
+        }
+
         projects.push({
             name: repo.name,
             description: repo.description || '',
@@ -236,7 +257,7 @@ async function fetchProjects() {
         p.imageUrl &&
         p.description &&
         p.topics.length > 0 &&
-        (!p.isPrivate || isTreSystemsUrl(p.homepageUrl))
+        (!p.isPrivate || isPublicPortfolioUrl(p.homepageUrl))
     );
 
     console.log(`Found ${projects.length} repos, ${completeProjects.length} with image, description, and tags`);
