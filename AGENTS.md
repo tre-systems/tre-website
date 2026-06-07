@@ -36,7 +36,6 @@ Current priority noted on 2026-05-29:
 1. Card lead images (audited June 2026 — most are strong: real product UIs,
    branded title cards, or striking generative visuals). Worth improving in the
    source-repo READMEs:
-   - `rowspire` — faint/weak lead image; replace with a clear game screenshot.
    - `cefr-workshop`, `github-org-metrics` — raw terminal/table shots; usable but
      could be nicer (the cefr-workshop shot also leaks a local `/Users/...` path).
    - `galacto`, `pongo`, `planeto` read dark/minimal, but that matches the works
