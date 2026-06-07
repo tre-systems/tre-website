@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#000000"/>
+
+  <!-- TRE triangle mark -->
+  <g transform="translate(92,60) scale(3.4)">
+    <path d="M16 2.25 L4.5 29.75 L27.5 29.75 Z" fill="#000000"/>
+    <rect x="13.375" y="18" width="5" height="12.875" fill="#19C15E" transform="rotate(22, 16, 18.4375)" rx="0.5"/>
+    <circle cx="16" cy="18" r="2.5" fill="#F5F5F5"/>
+    <path d="M16 2.25 L4.5 29.75 L27.5 29.75 Z" fill="none" stroke="#F5F5F5" stroke-width="1.875" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <text x="226" y="148" font-family="'JetBrains Mono','DejaVu Sans Mono',monospace" font-size="38" font-weight="700" letter-spacing="1" fill="#39FF14">Total Reality Engineering</text>
+
+  <!-- Tagline -->
+  <text x="94" y="332" font-family="'Inter','DejaVu Sans',sans-serif" font-size="70" font-weight="700" fill="#F5F5F5">Bridge the gap between</text>
+  <text x="94" y="416" font-family="'Inter','DejaVu Sans',sans-serif" font-size="70" font-weight="700" fill="#39FF14">dreams and reality</text>
+  <rect x="96" y="456" width="118" height="4" fill="#39FF14"/>
+
+  <!-- Capability strip -->
+  <text x="96" y="532" font-family="'JetBrains Mono','DejaVu Sans Mono',monospace" font-size="27" fill="#9aa0a6">AI agents &#183; Rust &amp; WebGPU &#183; Cloudflare &#183; Next.js &#183; NLP</text>
+  <text x="96" y="574" font-family="'Inter','DejaVu Sans',sans-serif" font-size="25" fill="#6b7280">Independent software studio &#183; Robert Gilks</text>
+</svg>
