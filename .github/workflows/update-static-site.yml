@@ -25,8 +25,11 @@ jobs:
 
       # PROJECTS_GITHUB_TOKEN must read the private tre-systems repos whose
       # metadata and README images should be refreshed onto the public site.
+      # continue-on-error so a token/API problem during refresh can never block
+      # the deploy — the job falls through and ships the committed site instead.
       - name: Update projects
         if: ${{ env.PROJECTS_GITHUB_TOKEN != '' }}
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node build-projects.js
