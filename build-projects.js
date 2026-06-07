@@ -30,6 +30,33 @@ const APPROVED_PRIVATE_PROJECT_HOSTS = new Set([
     'www.rowspire.com'
 ]);
 
+// Display categories — each project appears under its category heading, in this
+// order. Any repo not listed falls into a trailing "More" group (and warns).
+const CATEGORY_ORDER = ['AI & Agents', 'Art & Generative', 'Games', 'Tools & Research'];
+const CATEGORY_OF = {
+    writeo: 'AI & Agents',
+    antenna: 'AI & Agents',
+    acto: 'AI & Agents',
+    comprehendo: 'AI & Agents',
+    speako: 'AI & Agents',
+    'office-assistant': 'AI & Agents',
+    'geno-1': 'Art & Generative',
+    'geno-2': 'Art & Generative',
+    empiricalrecords: 'Art & Generative',
+    galacto: 'Art & Generative',
+    planeto: 'Art & Generative',
+    evo: 'Art & Generative',
+    planeo: 'Art & Generative',
+    'rgou-cloudflare': 'Games',
+    pongo: 'Games',
+    'delta-v': 'Games',
+    rowspire: 'Games',
+    'royal-game-of-ur-cli': 'Games',
+    'github-org-metrics': 'Tools & Research',
+    'cefr-workshop': 'Tools & Research',
+};
+const DEFAULT_CATEGORY = 'More';
+
 // Image patterns to exclude (badges, stats, avatars, etc.)
 const EXCLUDED_IMAGE_HANDLES = [
     'img.shields.io',
@@ -339,7 +366,32 @@ function escapeHtml(text) {
 }
 
 function generateProjectsHtml(projects) {
-    return projects.map((project, index) => generateProjectCard(project, index)).join('\n');
+    // Group projects by category, preserving the incoming (flagship-first, then
+    // most-recently-pushed) order within each group.
+    const byCategory = {};
+    for (const project of projects) {
+        const category = CATEGORY_OF[project.name] || DEFAULT_CATEGORY;
+        if (category === DEFAULT_CATEGORY) {
+            console.warn(`No category mapped for "${project.name}" — placing it under "${DEFAULT_CATEGORY}".`);
+        }
+        (byCategory[category] ||= []).push(project);
+    }
+
+    // Known categories first (in CATEGORY_ORDER), then any leftover groups.
+    const orderedCategories = [
+        ...CATEGORY_ORDER.filter(category => byCategory[category]),
+        ...Object.keys(byCategory).filter(category => !CATEGORY_ORDER.includes(category)),
+    ];
+
+    let cardIndex = 0;
+    const sections = [];
+    for (const category of orderedCategories) {
+        sections.push(`\n                        <h3 class="category-title" data-testid="category-title">${escapeHtml(category)}</h3>`);
+        for (const project of byCategory[category]) {
+            sections.push(generateProjectCard(project, cardIndex++));
+        }
+    }
+    return sections.join('\n');
 }
 
 async function updateIndexHtml(projectsHtml) {
