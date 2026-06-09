@@ -18,6 +18,7 @@ const __dirname = path.dirname(__filename);
 const GITHUB_ORG = 'tre-systems';
 const GITHUB_API_URL = `https://api.github.com/orgs/${GITHUB_ORG}/repos?type=all&sort=pushed&per_page=100`;
 const INDEX_FILE = path.join(__dirname, 'index.html');
+const SENTRY_CONFIG_FILE = path.join(__dirname, 'sentry-config.js');
 const PRIVATE_PROJECT_IMAGE_DIR = path.join(__dirname, 'generated', 'project-images');
 
 // Projects to exclude from display
@@ -424,8 +425,23 @@ async function updateIndexHtml(projectsHtml) {
     console.log('index.html updated successfully!');
 }
 
+function writeSentryConfig() {
+    const config = {
+        dsn: process.env.SENTRY_DSN || '',
+        environment: process.env.SENTRY_ENVIRONMENT || 'production',
+        release: process.env.SENTRY_RELEASE || process.env.GITHUB_SHA || ''
+    };
+
+    fs.writeFileSync(
+        SENTRY_CONFIG_FILE,
+        `window.TRE_SENTRY_CONFIG = ${JSON.stringify(config, null, 2)};\n`
+    );
+    console.log('sentry-config.js updated successfully!');
+}
+
 async function main() {
     try {
+        writeSentryConfig();
         const projects = await fetchProjects();
         const projectsHtml = generateProjectsHtml(projects);
         await updateIndexHtml(projectsHtml);
