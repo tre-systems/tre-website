@@ -14,6 +14,9 @@ jobs:
       contents: write
     env:
       PROJECTS_GITHUB_TOKEN: ${{ secrets.PROJECTS_GITHUB_TOKEN }}
+      SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+      SENTRY_ENVIRONMENT: production
+      SENTRY_RELEASE: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v6
         with:
