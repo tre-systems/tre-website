@@ -35,7 +35,7 @@ jobs:
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node build-projects.js
+        run: npx --yes @sentry/cli monitors run tre-website-daily-updater -- node build-projects.js
 
       - name: Skip project update
         if: ${{ env.PROJECTS_GITHUB_TOKEN == '' }}
