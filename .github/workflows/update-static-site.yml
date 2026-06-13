@@ -14,8 +14,11 @@ jobs:
       contents: write
     env:
       PROJECTS_GITHUB_TOKEN: ${{ secrets.PROJECTS_GITHUB_TOKEN }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       SENTRY_DSN: ${{ vars.SENTRY_DSN }}
       SENTRY_ENVIRONMENT: production
+      SENTRY_ORG: total-reality-engineering
+      SENTRY_PROJECT: tre-website
       SENTRY_RELEASE: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v6
@@ -35,11 +38,28 @@ jobs:
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx --yes @sentry/cli monitors run tre-website-daily-updater -- node build-projects.js
+        run: >
+          npx --yes @sentry/cli monitors run tre-website-daily-updater
+          --schedule "0 6 * * *"
+          --check-in-margin 360
+          --max-runtime 10
+          --timezone UTC
+          --failure-issue-threshold 1
+          --recovery-threshold 1
+          -- node build-projects.js
 
       - name: Skip project update
         if: ${{ env.PROJECTS_GITHUB_TOKEN == '' }}
-        run: echo "Skipping project refresh because PROJECTS_GITHUB_TOKEN is not configured."
+        continue-on-error: true
+        run: >
+          npx --yes @sentry/cli monitors run tre-website-daily-updater
+          --schedule "0 6 * * *"
+          --check-in-margin 360
+          --max-runtime 10
+          --timezone UTC
+          --failure-issue-threshold 1
+          --recovery-threshold 1
+          -- bash -lc 'echo "Skipping project refresh because PROJECTS_GITHUB_TOKEN is not configured."'
 
       - name: Commit changes
         run: |
