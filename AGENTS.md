@@ -12,8 +12,8 @@ he can build real software.
 Current priority noted on 2026-05-29:
 
 - Keep improving the project cards as a portfolio surface.
-- Make sure the live site shows the right flagship work: Writeo, Antenna, Acto,
-  and the strongest public demos.
+- Make sure the live site shows the right flagship work: Writeo, Comprehendo,
+  Antenna, Acto, and the strongest public demos.
 - Review cards one by one for description quality, screenshot quality, topic
   tags, live URL usefulness, and whether the project tells a convincing story.
 - Treat the portfolio as preparation for later CV, LinkedIn, and work-search

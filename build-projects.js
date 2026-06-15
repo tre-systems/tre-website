@@ -25,7 +25,7 @@ const PRIVATE_PROJECT_IMAGE_DIR = path.join(__dirname, 'generated', 'project-ima
 const EXCLUDED_REPOS = ['tre-website'];
 
 // Flagship portfolio work to show first. Metadata still comes from GitHub.
-const FLAGSHIP_REPOS = ['writeo', 'antenna', 'acto'];
+const FLAGSHIP_REPOS = ['writeo', 'comprehendo', 'antenna', 'acto'];
 const APPROVED_PRIVATE_PROJECT_HOSTS = new Set([
     'rowspire.com',
     'www.rowspire.com'
