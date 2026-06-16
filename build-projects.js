@@ -28,7 +28,9 @@ const EXCLUDED_REPOS = ['tre-website'];
 const FLAGSHIP_REPOS = ['writeo', 'comprehendo', 'antenna', 'acto'];
 const APPROVED_PRIVATE_PROJECT_HOSTS = new Set([
     'rowspire.com',
-    'www.rowspire.com'
+    'www.rowspire.com',
+    'comprehendo.net',
+    'www.comprehendo.net'
 ]);
 
 // Display categories — each project appears under its category heading, in this
