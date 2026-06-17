@@ -33,8 +33,11 @@ jobs:
       # metadata and README images should be refreshed onto the public site.
       # continue-on-error so a token/API problem during refresh can never block
       # the deploy — the job falls through and ships the committed site instead.
-      - name: Update projects
-        if: ${{ env.PROJECTS_GITHUB_TOKEN != '' }}
+      # The Sentry cron check-in fires ONLY on the scheduled run, so the
+      # tre-website-daily-updater monitor reflects the daily job rather than the
+      # push-to-main and manual-dispatch deploys that also run this workflow.
+      - name: Refresh projects (scheduled run, with Sentry check-in)
+        if: ${{ github.event_name == 'schedule' }}
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,20 +49,15 @@ jobs:
           --timezone UTC
           --failure-issue-threshold 1
           --recovery-threshold 1
-          -- node build-projects.js
+          -- bash -lc 'if [ -n "$PROJECTS_GITHUB_TOKEN" ]; then node build-projects.js; else echo "Skipping project refresh because PROJECTS_GITHUB_TOKEN is not configured."; fi'
 
-      - name: Skip project update
-        if: ${{ env.PROJECTS_GITHUB_TOKEN == '' }}
+      - name: Refresh projects (push or manual run, no check-in)
+        if: ${{ github.event_name != 'schedule' }}
         continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >
-          npx --yes @sentry/cli monitors run tre-website-daily-updater
-          --schedule "0 6 * * *"
-          --check-in-margin 360
-          --max-runtime 10
-          --timezone UTC
-          --failure-issue-threshold 1
-          --recovery-threshold 1
-          -- bash -lc 'echo "Skipping project refresh because PROJECTS_GITHUB_TOKEN is not configured."'
+          bash -lc 'if [ -n "$PROJECTS_GITHUB_TOKEN" ]; then node build-projects.js; else echo "Skipping project refresh because PROJECTS_GITHUB_TOKEN is not configured."; fi'
 
       - name: Commit changes
         run: |
