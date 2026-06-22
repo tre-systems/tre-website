@@ -2,7 +2,10 @@ name: Update Projects
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6 AM UTC
+    # GitHub Actions can delay top-of-hour cron jobs by several hours. Use an
+    # off-minute early-morning slot so the refresh normally completes before
+    # the daily health review, while still running once per day.
+    - cron: '17 5 * * *'
   workflow_dispatch:
   push:
     branches: [main]
@@ -31,8 +34,8 @@ jobs:
 
       # PROJECTS_GITHUB_TOKEN must read the private tre-systems repos whose
       # metadata and README images should be refreshed onto the public site.
-      # continue-on-error so a token/API problem during refresh can never block
-      # the deploy — the job falls through and ships the committed site instead.
+      # continue-on-error lets Sentry report refresh failures without blocking
+      # push/manual deploys of the already committed site.
       # The Sentry cron check-in fires ONLY on the scheduled run, so the
       # tre-website-daily-updater monitor reflects the daily job rather than the
       # push-to-main and manual-dispatch deploys that also run this workflow.
@@ -43,8 +46,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >
           npx --yes @sentry/cli monitors run tre-website-daily-updater
-          --schedule "0 6 * * *"
-          --check-in-margin 360
+          --schedule "17 5 * * *"
+          --check-in-margin 180
           --max-runtime 10
           --timezone UTC
           --failure-issue-threshold 1
@@ -60,17 +63,23 @@ jobs:
           bash -lc 'if [ -n "$PROJECTS_GITHUB_TOKEN" ]; then node build-projects.js; else echo "Skipping project refresh because PROJECTS_GITHUB_TOKEN is not configured."; fi'
 
       - name: Commit changes
+        id: commit-changes
         run: |
-          test -z "$(git status --porcelain index.html generated/project-images)" || {
+          if test -z "$(git status --porcelain index.html generated/project-images)"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No generated project changes to commit."
+          else
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git config user.name "github-actions[bot]"
             git add index.html generated/project-images
-            git commit -m "chore: update projects"
+            git commit -m "chore: update projects [skip ci]"
             git push
-          }
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy . --project-name=tre-website
+        if: ${{ github.event_name != 'schedule' || steps.commit-changes.outputs.changed == 'true' }}
+        run: npx wrangler pages deploy . --project-name=tre-website --commit-dirty=true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

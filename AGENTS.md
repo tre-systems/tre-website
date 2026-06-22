@@ -29,7 +29,13 @@ Current priority noted on 2026-05-29:
   the public site does not depend on private GitHub asset access.
 - The scheduled project refresh needs a valid `PROJECTS_GITHUB_TOKEN` secret
   with read access to private `tre-systems` repositories. Without it, the
-  workflow skips regeneration and deploys the committed site.
+  workflow skips regeneration and keeps the committed site live.
+- The daily GitHub Actions schedule intentionally uses an off-minute UTC cron
+  rather than a top-of-hour schedule, because top-of-hour scheduled runs have
+  repeatedly started several hours late.
+- Scheduled runs commit and deploy only when the generated project grid or
+  cached project images change. Push and manual runs may still deploy during
+  active work.
 
 ## Near-Term Backlog
 

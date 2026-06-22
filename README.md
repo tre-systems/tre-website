@@ -32,7 +32,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 🔄 Updating Projects
 
 Projects are fetched from GitHub and injected into `index.html`. This happens:
-- **Automatically**: Daily via GitHub Actions
+- **Automatically**: Daily via GitHub Actions, at an off-minute UTC time to
+  avoid the heavy top-of-hour cron queue
 - **Manually**: Run `node build-projects.js`
 
 To include private TRE repos that have a public TRE-owned homepage, run the
@@ -49,7 +50,7 @@ grid locally.
 In GitHub Actions, set `PROJECTS_GITHUB_TOKEN` to a token that can read the
 private `tre-systems` repos if private-project cards should be refreshed by
 the scheduled workflow. Without that secret, the workflow skips project
-regeneration and deploys the committed site.
+regeneration and keeps the already committed site live.
 Private repos are shown only when they have a description, topics, a README
 image, and a public TRE-owned homepage; private GitHub links are never rendered.
 
@@ -63,9 +64,13 @@ token should have read-only contents access for the private repositories that
 may be displayed; a classic token needs equivalent private-repo read access.
 
 If `PROJECTS_GITHUB_TOKEN` is missing or invalid, the workflow deliberately
-skips `node build-projects.js` and deploys the already committed `index.html`
-and `generated/project-images` files. That keeps existing private cards live,
-but they will not update automatically until the secret is configured.
+skips `node build-projects.js` and keeps the already committed `index.html`
+and `generated/project-images` files live. That preserves existing private
+cards, but they will not update automatically until the secret is configured.
+
+Scheduled runs commit and deploy only when `index.html` or
+`generated/project-images` changes. Push and manual runs still deploy the
+current checked-out site, which is useful while actively working during the day.
 
 ## 🎨 Design
 
