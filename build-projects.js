@@ -428,10 +428,17 @@ async function updateIndexHtml(projectsHtml) {
 }
 
 function writeSentryConfig() {
+    const configuredTracesSampleRate = Number(process.env.SENTRY_TRACES_SAMPLE_RATE || 0.05);
     const config = {
         dsn: process.env.SENTRY_DSN || '',
         environment: process.env.SENTRY_ENVIRONMENT || 'production',
-        release: process.env.SENTRY_RELEASE || process.env.GITHUB_SHA || ''
+        release: process.env.SENTRY_RELEASE || process.env.GITHUB_SHA || '',
+        tracesSampleRate:
+            Number.isFinite(configuredTracesSampleRate) &&
+            configuredTracesSampleRate >= 0 &&
+            configuredTracesSampleRate <= 1
+                ? configuredTracesSampleRate
+                : 0.05
     };
 
     fs.writeFileSync(

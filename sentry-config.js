@@ -1,5 +1,6 @@
 window.TRE_SENTRY_CONFIG = {
   "dsn": "",
   "environment": "production",
-  "release": ""
+  "release": "",
+  "tracesSampleRate": 0.05
 };
