@@ -23,7 +23,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ├── styles.css                              # All styling
 ├── script.js                               # Animations & interactions
 ├── build-projects.js                       # GitHub project fetcher
-├── support/index.html                      # Support page
 ├── package.json                            # Scripts & config
 ├── favicon.svg                             # Site icon
 ├── logo192.png                             # Apple touch icon
