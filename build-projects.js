@@ -30,8 +30,20 @@ const APPROVED_PRIVATE_PROJECT_HOSTS = new Set([
     'rowspire.com',
     'www.rowspire.com',
     'comprehendo.net',
-    'www.comprehendo.net'
+    'www.comprehendo.net',
+    'talata.app',
+    'www.talata.app'
 ]);
+
+// Repos whose public identity has moved ahead of the GitHub repo name (which is
+// not yet renamed). Keyed by GitHub repo name; everything else still keys off
+// the repo name (category, flagship order, cached image filename).
+const DISPLAY_NAME = {
+    writeo: 'talata',
+};
+const HOMEPAGE_OVERRIDE = {
+    writeo: 'https://talata.app/',
+};
 
 // Display categories — each project appears under its category heading, in this
 // order. Any repo not listed falls into a trailing "More" group (and warns).
@@ -271,9 +283,10 @@ async function fetchProjects() {
 
         projects.push({
             name: repo.name,
+            displayName: DISPLAY_NAME[repo.name] || repo.name,
             description: repo.description || '',
             htmlUrl: repo.html_url,
-            homepageUrl: repo.homepage || null,
+            homepageUrl: HOMEPAGE_OVERRIDE[repo.name] || repo.homepage || null,
             updatedAt: repo.updated_at,
             imageUrl: imageUrl,
             topics: repo.topics || [],
@@ -300,6 +313,7 @@ function formatDate(dateString) {
 }
 
 function generateProjectCard(project, index) {
+    const displayName = project.displayName || project.name;
     const showGithubLink = !project.isPrivate;
     const linkCount = (project.homepageUrl ? 1 : 0) + (showGithubLink ? 1 : 0);
     const linksClass = linkCount === 1 ? ' project-links-full' : '';
@@ -319,7 +333,7 @@ function generateProjectCard(project, index) {
 
     const imageHtml = project.imageUrl ? `
                                  <div class="project-image-container">
-                                     <img src="${project.imageUrl}" alt="${project.name} screenshot" class="project-image" loading="lazy" onerror="this.closest('.project-image-container').classList.add('placeholder');this.remove()">
+                                     <img src="${project.imageUrl}" alt="${displayName} screenshot" class="project-image" loading="lazy" onerror="this.closest('.project-image-container').classList.add('placeholder');this.remove()">
                                  </div>` : `
                                  <div class="project-image-container placeholder">
                                      <div class="placeholder-overlay"></div>
@@ -334,7 +348,7 @@ function generateProjectCard(project, index) {
     const projectLink = project.homepageUrl || project.htmlUrl;
     
     return `
-                        <!-- Project Card: ${project.name} -->
+                        <!-- Project Card: ${displayName} -->
                         <div class="project-card" data-testid="project-card">
                             <div class="project-card-bg"></div>
                             <div class="project-image-wrapper" style="--anim-delay: ${randomDelay}s">
@@ -344,7 +358,7 @@ function generateProjectCard(project, index) {
                             </div>
                             <div class="project-card-content">
                                 <div class="project-header">
-                                    <h3 class="project-title" data-testid="project-title">${project.name}</h3>
+                                    <h3 class="project-title" data-testid="project-title">${displayName}</h3>
                                     <p class="project-description" data-testid="project-description">${escapeHtml(project.description)}</p>
                                 </div>
                                 <div class="project-topics">
