@@ -32,7 +32,9 @@ const APPROVED_PRIVATE_PROJECT_HOSTS = new Set([
     'comprehendo.net',
     'www.comprehendo.net',
     'talata.app',
-    'www.talata.app'
+    'www.talata.app',
+    'galacto.org',
+    'www.galacto.org'
 ]);
 
 // Repos whose public identity has moved ahead of the GitHub repo name (which is
