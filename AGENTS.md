@@ -21,6 +21,11 @@ Current priority noted on 2026-05-29:
 
 ## Project Card Rules
 
+- The grid is one flat, ranked list — not grouped into sections. Cards run
+  flagship-first (`FLAGSHIP_REPOS`, in that order) then by most recent push, so
+  the strongest work always leads. The type of work (`CATEGORY_OF`) is shown as
+  a small label on each card, not as a section heading. Promote or demote a
+  project by editing `FLAGSHIP_REPOS`.
 - Public repositories can show both website and GitHub links when available.
 - Private repositories can appear only when they have a public TRE-owned
   homepage, description, topics, and a README image suitable for the card.
