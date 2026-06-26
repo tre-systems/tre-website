@@ -45,9 +45,9 @@ const HOMEPAGE_OVERRIDE = {
     writeo: 'https://talata.app/',
 };
 
-// Display categories — each project appears under its category heading, in this
-// order. Any repo not listed falls into a trailing "More" group (and warns).
-const CATEGORY_ORDER = ['AI & Agents', 'Art & Generative', 'Games', 'Tools & Research'];
+// Type-of-work label shown on each project card. Any repo not listed falls back
+// to "More" (and warns). This is a per-card label, not a section grouping —
+// card order is flagship-first then most-recently-pushed.
 const CATEGORY_OF = {
     writeo: 'AI & Agents',
     antenna: 'AI & Agents',
@@ -312,7 +312,7 @@ function formatDate(dateString) {
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
 
-function generateProjectCard(project, index) {
+function generateProjectCard(project, index, category) {
     const displayName = project.displayName || project.name;
     const showGithubLink = !project.isPrivate;
     const linkCount = (project.homepageUrl ? 1 : 0) + (showGithubLink ? 1 : 0);
@@ -358,6 +358,7 @@ function generateProjectCard(project, index) {
                             </div>
                             <div class="project-card-content">
                                 <div class="project-header">
+                                    <span class="project-category" data-testid="project-category">${escapeHtml(category)}</span>
                                     <h3 class="project-title" data-testid="project-title">${displayName}</h3>
                                     <p class="project-description" data-testid="project-description">${escapeHtml(project.description)}</p>
                                 </div>
@@ -383,32 +384,17 @@ function escapeHtml(text) {
 }
 
 function generateProjectsHtml(projects) {
-    // Group projects by category, preserving the incoming (flagship-first, then
-    // most-recently-pushed) order within each group.
-    const byCategory = {};
-    for (const project of projects) {
+    // One flat, ranked list: flagship work first, then everything else by most
+    // recent push (the order `projects` already arrives in). The type of work is
+    // shown as a label on each card rather than as a section heading, so the
+    // strongest projects stay at the top regardless of category.
+    return projects.map((project, index) => {
         const category = CATEGORY_OF[project.name] || DEFAULT_CATEGORY;
         if (category === DEFAULT_CATEGORY) {
-            console.warn(`No category mapped for "${project.name}" — placing it under "${DEFAULT_CATEGORY}".`);
+            console.warn(`No category mapped for "${project.name}" — labelling it "${DEFAULT_CATEGORY}".`);
         }
-        (byCategory[category] ||= []).push(project);
-    }
-
-    // Known categories first (in CATEGORY_ORDER), then any leftover groups.
-    const orderedCategories = [
-        ...CATEGORY_ORDER.filter(category => byCategory[category]),
-        ...Object.keys(byCategory).filter(category => !CATEGORY_ORDER.includes(category)),
-    ];
-
-    let cardIndex = 0;
-    const sections = [];
-    for (const category of orderedCategories) {
-        sections.push(`\n                        <h3 class="category-title" data-testid="category-title">${escapeHtml(category)}</h3>`);
-        for (const project of byCategory[category]) {
-            sections.push(generateProjectCard(project, cardIndex++));
-        }
-    }
-    return sections.join('\n');
+        return generateProjectCard(project, index, category);
+    }).join('\n');
 }
 
 async function updateIndexHtml(projectsHtml) {

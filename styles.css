@@ -303,22 +303,6 @@ body {
 }
 
 /* Category group heading inside the project grid (spans all columns). */
-.category-title {
-    grid-column: 1 / -1;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--tre-green);
-    letter-spacing: 0.02em;
-    margin: 2.5rem 0 0.25rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid rgba(var(--tre-green-rgb), 0.2);
-}
-
-.category-title:first-child {
-    margin-top: 0;
-}
-
 .project-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -562,6 +546,17 @@ body {
 .project-header {
     margin-bottom: 0.75rem;
     /* Tighter spacing */
+}
+
+.project-category {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(var(--tre-green-rgb), 0.6);
+    margin-bottom: 0.5rem;
 }
 
 .project-title {
