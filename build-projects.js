@@ -45,6 +45,14 @@ const HOMEPAGE_OVERRIDE = {
     writeo: 'https://talata.app/',
 };
 
+// Curated card topics for repos where GitHub's alphabetical topic order buries
+// the most relevant tags (the card shows only the first six). Keyed by repo
+// name; falls back to the repo's own topics when absent. Each listed topic must
+// be a real topic on the repo so the card never advertises a tag GitHub lacks.
+const FEATURED_TOPICS = {
+    'delta-v': ['ai-agents', 'agent-benchmark', 'mcp', 'orbital-mechanics', 'space-game', 'multiplayer'],
+};
+
 // Type-of-work label shown on each project card. Any repo not listed falls back
 // to "More" (and warns). This is a per-card label, not a section grouping —
 // card order is flagship-first then most-recently-pushed.
@@ -346,6 +354,10 @@ function generateProjectCard(project, index, category) {
 
     const randomDelay = (((index * 7 + 3) % 10) * -1).toFixed(2); // Deterministic per-card animation offset
     const projectLink = project.homepageUrl || project.htmlUrl;
+    const featured = FEATURED_TOPICS[project.name];
+    const topics = featured
+        ? featured.filter(topic => project.topics.includes(topic))
+        : project.topics;
     
     return `
                         <!-- Project Card: ${displayName} -->
@@ -363,7 +375,7 @@ function generateProjectCard(project, index, category) {
                                     <p class="project-description" data-testid="project-description">${escapeHtml(project.description)}</p>
                                 </div>
                                 <div class="project-topics">
-                                    ${project.topics.slice(0, 6).map(topic => `<span class="topic-tag">${escapeHtml(topic)}</span>`).join('')}
+                                    ${topics.slice(0, 6).map(topic => `<span class="topic-tag">${escapeHtml(topic)}</span>`).join('')}
                                 </div>
                                 <div class="project-footer">
 
