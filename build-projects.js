@@ -59,11 +59,11 @@ const FEATURED_TOPICS = {
 // to "More" (and warns). This is a per-card label, not a section grouping —
 // card order is flagship-first then most-recently-pushed.
 const CATEGORY_OF = {
-    writeo: 'AI & Agents',
+    writeo: 'Language Learning',
     antenna: 'AI & Agents',
     acto: 'AI & Agents',
-    comprehendo: 'AI & Agents',
-    speako: 'AI & Agents',
+    comprehendo: 'Language Learning',
+    speako: 'Language Learning',
     'office-assistant': 'AI & Agents',
     'geno-1': 'Art & Generative',
     'geno-2': 'Art & Generative',
